@@ -1,7 +1,12 @@
 #!/usr/bin/env python
 
-import io, ssl
+import io, ssl, logging
 import nghttp2
+
+logging.basicConfig(
+  format = "%(levelname) -10s %(asctime)s %(module)s:%(lineno) -7s %(message)s",
+  level = logging.DEBUG
+)
 
 class Handler(nghttp2.BaseRequestHandler):
 
