@@ -12,12 +12,18 @@ class Handler(nghttp2.BaseResponseHandler):
        print(k.decode('utf-8')+'\t:\t'+v.decode('utf-8'))
 
   def on_data(self, data):
-#    print(data.decode('utf-8'))
-    pass
+    print(data.decode('utf-8'))
 
-  def on_push_promise(self, headers):
-    return Handler()
-#    return None
+  def on_response_done(self):
+    print('Response done')
+    print(self.stream_id)
+
+  def on_push_promise(self, push_promise):
+    print('Push received')
+    nhandler = Handler()
+    self.accept_push(push_promise, nhandler)
+    for k,v in nhandler.headers:
+       print(k.decode('utf-8')+'\t:\t'+v.decode('utf-8'))
 
 context = ssl.create_default_context(purpose=ssl.Purpose.SERVER_AUTH)
 context.check_hostname = False
